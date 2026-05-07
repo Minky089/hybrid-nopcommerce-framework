@@ -1,5 +1,6 @@
-package actions.commons;
+package commons;
 
+import interfaces.pageuis.RegisterPageUI;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
@@ -31,10 +32,12 @@ public class BasePage {
     }
 
     protected void clickToElement(WebDriver driver, String locator) {
+        waitForElementClickable(driver, locator);
         getElement(driver, locator).click();
     }
 
     protected void sendkeyToElement(WebDriver driver, String locator, String value) {
+        waitForElementVisible(driver, locator);
         getElement(driver, locator).sendKeys(value);
     }
 
@@ -70,6 +73,7 @@ public class BasePage {
         List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childItemLocator)));
 
         sleepInSeconds(2);
+        assert allItems != null;
         for (WebElement item : allItems) {
             if (item.getText().trim().equals(expectedItem)) {
                 item.click();
@@ -79,6 +83,7 @@ public class BasePage {
     }
 
     protected String getElementText(WebDriver driver, String locator) {
+        waitForElementVisible(driver, RegisterPageUI.REGISTER_SUCCESS_MESSAGE);
         return getElement(driver, locator).getText();
     }
 
@@ -130,11 +135,11 @@ public class BasePage {
         return waitAlertPresence(driver).getText();
     }
 
-    protected boolean isElementDisplayed(String locator) {
+    protected boolean isElementDisplayed(WebDriver driver, String locator) {
         return getElement(driver, locator).isDisplayed();
     }
 
-    protected boolean isElementSelected(String locator) {
+    protected boolean isElementSelected(WebDriver driver, String locator) {
         return getElement(driver, locator).isSelected();
     }
 
@@ -188,6 +193,10 @@ public class BasePage {
 
     protected void clickAndHoldToElement(WebDriver driver,  String locator) {
         new Actions(driver).clickAndHold(getElement(driver, locator)).perform();
+    }
+
+    protected void releaseLeftMouse(WebDriver driver) {
+        new Actions(driver).release().perform();
     }
 
     protected void doubleClickToElement(WebDriver driver,  String locator) {
@@ -278,6 +287,10 @@ public class BasePage {
 
     protected void waitForElementClickable(WebDriver driver, String locator) {
         new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.elementToBeClickable(getByXpath(locator)));
+    }
+
+    protected void waitForElementSelected(WebDriver driver, String locator) {
+        new WebDriverWait(driver, Duration.ofSeconds(30)).until(ExpectedConditions.elementToBeSelected(getByXpath(locator)));
     }
 
     protected WebElement getElement(WebDriver driver, String locator) {
