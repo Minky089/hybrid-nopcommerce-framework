@@ -3,7 +3,7 @@
 <suite name="NopCommerce Automation Testing">
     <test name="Run on Chrome browser">
         <classes>
-            <class name="com.orangehrm.pim.PIM_01_Employee"/>
+            <class name="nopcommerce.users.UserRegistrationTest"/>
         </classes>
     </test>
 </suite>

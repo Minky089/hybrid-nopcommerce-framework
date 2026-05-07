@@ -1,16 +1,12 @@
 package nopcommerce.users;
 
 import commons.BaseTest;
+import commons.constant.Browsers;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageobjects.CustomerInfoPageObject;
 import pageobjects.HomePageObject;
 import pageobjects.RegisterPageObject;
-
-import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -21,11 +17,10 @@ public class UserRegistrationTest extends BaseTest {
     private WebDriver driver;
     private String firstName, lastName, emailAddress, password, companyName;
 
+    @Parameters("browser")
     @BeforeClass
-    public void beforeClass() {
-        driver = new FirefoxDriver();
-        driver.get("http://127.0.0.1:8080/");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+    public void beforeClass(@Optional("CHROME") String browserName) {
+        driver = getDriverBrowser(browserName);
         homePage = new HomePageObject(driver);
         homePage.selectLanguageDropdown("EN");
 
@@ -36,6 +31,7 @@ public class UserRegistrationTest extends BaseTest {
         password = "12345678";
     }
 
+    @Parameters
     @Test
     public void User_01_Register() {
         registerPage = homePage.clickToRegisterLink();
