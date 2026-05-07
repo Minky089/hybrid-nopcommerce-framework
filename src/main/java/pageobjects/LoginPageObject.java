@@ -8,19 +8,20 @@ public class LoginPageObject extends BasePage {
     private final WebDriver driver;
 
     public LoginPageObject(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 
     public HomePageObject clickToLoginButton() {
-        clickToElement(driver, LoginPageUI.LOGIN_BUTTON);
+        clickToElement(LoginPageUI.LOGIN_BUTTON);
         return new HomePageObject(driver);
     }
 
     public void enterToEmailTextbox(String email) {
-        sendkeyToElement(driver, LoginPageUI.EMAIL_TEXTBOX, email);
+        sendkeyToElement(LoginPageUI.EMAIL_TEXTBOX, email);
     }
 
     public void enterToPasswordTextbox(String password) {
-        sendkeyToElement(driver, LoginPageUI.PASSWORD_TEXTBOX, password);
+        sendkeyToElement(LoginPageUI.PASSWORD_TEXTBOX, password);
     }
 }
